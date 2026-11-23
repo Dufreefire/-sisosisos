@@ -101,73 +101,26 @@ jobs:
 
           cat << 'EOF' > app/src/main/res/layout/activity_main.xml
           <?xml version="1.0" encoding="utf-8"?>
-          <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+          <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="vertical"
               android:background="#0B1120">
+
+              <WebView
+                  android:id="@+id/webview"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent" />
 
               <ProgressBar
                   android:id="@+id/progressBar"
                   style="?android:attr/progressBarStyleHorizontal"
                   android:layout_width="match_parent"
                   android:layout_height="4dp"
+                  android:layout_gravity="top"
                   android:max="100"
                   android:visibility="gone" />
 
-              <WebView
-                  android:id="@+id/webview"
-                  android:layout_width="match_parent"
-                  android:layout_height="0dp"
-                  android:layout_weight="1" />
-
-              <LinearLayout
-                  android:layout_width="match_parent"
-                  android:layout_height="46dp"
-                  android:orientation="horizontal"
-                  android:background="#111827"
-                  android:gravity="center_vertical"
-                  android:paddingHorizontal="12dp">
-
-                  <Button
-                      android:id="@+id/btnBack"
-                      android:layout_width="0dp"
-                      android:layout_height="36dp"
-                      android:layout_weight="1"
-                      android:text="Quay lại"
-                      android:textSize="12sp"
-                      android:textColor="#FFFFFF"
-                      android:backgroundTint="#1E293B" />
-
-                  <Space
-                      android:layout_width="8dp"
-                      android:layout_height="match_parent" />
-
-                  <Button
-                      android:id="@+id/btnReload"
-                      android:layout_width="0dp"
-                      android:layout_height="36dp"
-                      android:layout_weight="1"
-                      android:text="Tải lại"
-                      android:textSize="12sp"
-                      android:textColor="#FFFFFF"
-                      android:backgroundTint="#1E293B" />
-
-                  <Space
-                      android:layout_width="8dp"
-                      android:layout_height="match_parent" />
-
-                  <Button
-                      android:id="@+id/btnHome"
-                      android:layout_width="0dp"
-                      android:layout_height="36dp"
-                      android:layout_weight="1"
-                      android:text="Trang chủ"
-                      android:textSize="12sp"
-                      android:textColor="#FFFFFF"
-                      android:backgroundTint="#2563EB" />
-              </LinearLayout>
-          </LinearLayout>
+          </FrameLayout>
           EOF
 
           cat << 'EOF' > app/src/main/java/com/c17tools/ai/MainActivity.java
@@ -184,7 +137,6 @@ jobs:
           import android.webkit.WebSettings;
           import android.webkit.WebView;
           import android.webkit.WebViewClient;
-          import android.widget.Button;
           import android.widget.ProgressBar;
 
           public class MainActivity extends Activity {
@@ -199,10 +151,6 @@ jobs:
 
                   webView = findViewById(R.id.webview);
                   progressBar = findViewById(R.id.progressBar);
-
-                  Button btnBack = findViewById(R.id.btnBack);
-                  Button btnReload = findViewById(R.id.btnReload);
-                  Button btnHome = findViewById(R.id.btnHome);
 
                   CookieManager.getInstance().setAcceptCookie(true);
                   CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true);
@@ -256,29 +204,6 @@ jobs:
                               startActivity(intent);
                           } catch (Exception ignored) {
                           }
-                      }
-                  });
-
-                  btnBack.setOnClickListener(new View.OnClickListener() {
-                      @Override
-                      public void onClick(View v) {
-                          if (webView.canGoBack()) {
-                              webView.goBack();
-                          }
-                      }
-                  });
-
-                  btnReload.setOnClickListener(new View.OnClickListener() {
-                      @Override
-                      public void onClick(View v) {
-                          webView.reload();
-                      }
-                  });
-
-                  btnHome.setOnClickListener(new View.OnClickListener() {
-                      @Override
-                      public void onClick(View v) {
-                          webView.loadUrl(TARGET_URL);
                       }
                   });
 
