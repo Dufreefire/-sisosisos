@@ -18,10 +18,13 @@ jobs:
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
+        with:
+          api-level: 35
+          build-tools-version: "35.0.0"
 
       - name: Create Android project and icon
         run: |
-          mkdir -p app/src/main/java/com/c17tools/ai app/src/main/res/layout app/src/main/res/values app/src/main/res/mipmap-hdpi app/src/main/res/mipmap-mdpi app/src/main/res/mipmap-xhdpi app/src/main/res/mipmap-xxhdpi
+          mkdir -p app/src/main/java/com/c17tools/ai app/src/main/res/layout app/src/main/res/values app/src/main/res/mipmap-hdpi app/src/main/res/mipmap-mdpi app/src/main/res/mipmap-xhdpi app/src/main/res/mipmap-xxhdpi app/src/main/res/mipmap-xxxhdpi
 
           ICON_FILE=""
           if [ -f "21017B8B-8273-4AF8-A2D6-164C76A62CF6.png" ]; then
@@ -37,6 +40,7 @@ jobs:
             cp "$ICON_FILE" app/src/main/res/mipmap-mdpi/ic_launcher.png
             cp "$ICON_FILE" app/src/main/res/mipmap-xhdpi/ic_launcher.png
             cp "$ICON_FILE" app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+            cp "$ICON_FILE" app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
           fi
 
           cat << 'EOF' > settings.gradle
@@ -51,7 +55,7 @@ jobs:
                   mavenCentral()
               }
               dependencies {
-                  classpath 'com.android.tools.build:gradle:8.2.2'
+                  classpath 'com.android.tools.build:gradle:8.5.2'
               }
           }
           allprojects {
@@ -73,11 +77,11 @@ jobs:
           }
           android {
               namespace 'com.c17tools.ai'
-              compileSdk 34
+              compileSdk 35
               defaultConfig {
                   applicationId "com.c17tools.ai"
-                  minSdk 24
-                  targetSdk 34
+                  minSdk 21
+                  targetSdk 35
                   versionCode 1
                   versionName "1.0"
               }
