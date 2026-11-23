@@ -19,20 +19,24 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Create WebView Android project
+      - name: Create Android project and icon
         run: |
           mkdir -p app/src/main/java/com/c17tools/ai app/src/main/res/layout app/src/main/res/values app/src/main/res/mipmap-hdpi app/src/main/res/mipmap-mdpi app/src/main/res/mipmap-xhdpi app/src/main/res/mipmap-xxhdpi
 
-          if [ -f "logo.png" ]; then
-            cp logo.png app/src/main/res/mipmap-hdpi/ic_launcher.png
-            cp logo.png app/src/main/res/mipmap-mdpi/ic_launcher.png
-            cp logo.png app/src/main/res/mipmap-xhdpi/ic_launcher.png
-            cp logo.png app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+          ICON_FILE=""
+          if [ -f "21017B8B-8273-4AF8-A2D6-164C76A62CF6.png" ]; then
+            ICON_FILE="21017B8B-8273-4AF8-A2D6-164C76A62CF6.png"
+          elif [ -f "logo.png" ]; then
+            ICON_FILE="logo.png"
           elif [ -f "logo.jpg" ]; then
-            cp logo.jpg app/src/main/res/mipmap-hdpi/ic_launcher.png
-            cp logo.jpg app/src/main/res/mipmap-mdpi/ic_launcher.png
-            cp logo.jpg app/src/main/res/mipmap-xhdpi/ic_launcher.png
-            cp logo.jpg app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+            ICON_FILE="logo.jpg"
+          fi
+
+          if [ -n "$ICON_FILE" ]; then
+            cp "$ICON_FILE" app/src/main/res/mipmap-hdpi/ic_launcher.png
+            cp "$ICON_FILE" app/src/main/res/mipmap-mdpi/ic_launcher.png
+            cp "$ICON_FILE" app/src/main/res/mipmap-xhdpi/ic_launcher.png
+            cp "$ICON_FILE" app/src/main/res/mipmap-xxhdpi/ic_launcher.png
           fi
 
           cat << 'EOF' > settings.gradle
